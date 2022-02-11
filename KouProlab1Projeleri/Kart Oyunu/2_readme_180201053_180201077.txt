@@ -1,0 +1,9 @@
+Tahir Umut Dolaş-190201110 Yasin Ömer Kara-180201077
+
+Clear and Debug yapıp programı çalıştırınız.
+Kartların dağıtılması için BAŞLA butonuna tıklayınız. 
+ALt taraftaki kartlar sizin kartlarınızdır.
+Sırasıyla 1 basketbolcu,1 futbolcu kartı seçip oyunu kazanmaya çalışmalısınız.
+Seçtiğiniz karta tıklayarak kartınızı ortaya sürebilirsiniz.
+Sağ alt ve üstteki puanlar skorlarınızdır.
+Elinizde kart kalmadığında yan taraftaki SONUC butonuna tıklayıp,kazananı görebilirsiniz.

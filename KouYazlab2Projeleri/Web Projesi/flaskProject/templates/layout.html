@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang=“en”>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/lib/bootstrap.min.css') }}">
+    <meta charset=“UTF-8”>
+    <meta name=“viewport” content=“width=device-width, initial-scale=1.0”>
+    <meta http-equiv=“X-UA-Compatible” content=“ie=edge”>
+    {% block title %}
+        <title>Yazlab Projesi-Web Indexleme Uygulaması</title>
+    {% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+{% block body %}
+    <body>
+
+    {% include "navbar.html" %}
+
+    <h1>Projenin Amacı</h1>
+    <p>
+        Verilen bir URL’deki web sayfa içeriğine göre diğer birden fazla web sayfasını benzerlik
+        bakımından indeksleyip sıralayan web tabanlı bir uygulama geliştirmek. Böylece bu proje sayesinde
+        web indeksleme yöntemleri hakkında bilgi edinilmesini ve web tabanlı uygulama yazma becerisinin
+        geliştirilmesi amaçlanmaktadır.
+    </p>
+    <h2>Projenin Ana Başlıkları ve Sayfa Icerikleri</h2>
+    <p>
+    <ol>
+        <li> Sayfada Geçen Kelimelerin Frekanslarını Hesaplama (%10)</li>
+        <li> Anahtar Kelime Çıkarma (%20)</li>
+        <li> İki Sayfa (URL) Arasındaki Benzerlik Skorlaması (%20)</li>
+        <li> Site İndexleme ve Sıralama (%20)</li>
+        <li> Semantik Analiz (%20)</li>
+    </ol>
+    </p>
+    <h3>1 : Sayfada Geçen Kelimelerin Frekanslarını Hesaplama </h3>
+    <p><b>Verilen bir URL icin:</b><br>
+        URL iceriginde (URL’in gosterdigi sayfa iceriginde) her kelimenin kacar defa yer aldıgını
+        (frekansını) bulunuz.
+    </p>
+    <h3>2 : Anahtar Kelime Çıkarma </h3>
+    <p><b>Verilen 2 URL icin:</b><br>
+        Her iki URL metninde geçen kelimelerden en önemli kelimelerin (sayfanın içerik özelliklerini
+        tanımlayan ve kategorik özelliklerini yansıtan kelime kümesi) belirlenerek anahtar kelimelerin
+        çıkartınız.
+    </p>
+    <h3>3 : Anahtar Kelime Çıkarma </h3>
+    <p><b>Verilen 2 URL icin:</b><br>
+        İkinci bölümde 1. URL için elde edilen anahtar kelimelerin 2. URL’nin içeriğinde yer alma sayısına
+        dayalı bir benzerlik skor formuulü tanımlayınız.
+        <br>
+        1. URL’nin tüm anahtar kelimeleri ve 1. URL içeriğinde geçme sayısı (frekansını), bu iki URL
+        icin benzerlik skorunu, 2. URL’de geçen tüm anahtar kelimeleri ve bunların 2. URL içeriğindeki
+        frekanslarını, yazdırınız (2. ve 3. Bölümler için tek bir web sayfasında (¨orn: asama23.php,
+        asama23.asp,…) sonuçlar yazdırılmalıdır).
+    </p>
+    <h3>4 : Site İndexleme ve Sıralama </h3>
+    <p><b>Verilen bir web sitesi kumesi ve farklı bir URL icin:</b><br>
+        Bu asamada projenin web sitesindeki bir sayfada (¨orn: asama4.php, asama4.asp,…) URL girilecek
+        bir alan oluşturulacaktır. Girilen bu URL’nin içeriği ile web site kümesindeki her bir web sayfasının
+        içeriklerinin benzerlik skorları ayrı ayrı hesaplanacaktır. Ancak bu sefer skor hesaplaması yaparken
+        bu web site kümesinde bulunan web sayfalarının içeriğine ilaveten yine bu sayfalarda bulunan tüm
+        alt URL’leri de dikkate alınmalıdır. Alt URL’lerindeki anahtar kelimelerin yer alma sayılarına
+        dayalı olarak skor formülünü yeniden geliştirin (derinlik max 3 seviye; ana sayfa= 1. seviye
+        derinlik, ana sayfadan linklenmis bir sayfa: 2. seviye derinlik, ana sayfadan linklenmis bir
+        sayfadan linklenmis bir sayfa:3. seviye derinlik olarak kabul edilmelidir).
+        <br>
+        Web sitelerini benzerlik skorlarına göre yüksekten düşüğe doğru sıralayınız (tum alt URL’leri
+        dahil)
+        <br>
+        Her URL (bir web sitesi) icin, sırasını, skorunu, alt URL’lerin agac yapısını ve her dugumdeki
+        her bir anahtar kelimenin yer alma sayısı ile birlikte yazdırın.
+    </p>
+    <h3>5 : Semantik Analiz</h3>
+    <p>Verilen web siteleri icerisinde anahtar kelimelerle semantik olarak alakalı kelimeler
+        olabilir. Ornegin, “ulusal” yerine “milli” kelimesi yer alabilir. Bu kelimelere “alakalı
+        anahtar kelimeler” diyelim.Alakalı anahtar kelimeleri bulun ve yazdırın. Yinelemeli olarak 4. asamadaki analizi yapınız
+    </p>
+    <h4>Yasin Ömer Kara  - 180201077 / Feyza Demirel - 190201110</h4>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    </body>
+{% endblock %}
+</html>

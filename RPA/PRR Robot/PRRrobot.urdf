@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot name="PRRrobot">
+  
+  <material name = 'color1'>
+   <color rgba='0.6 0.2 0.2 0.8' />
+    </material>
+  <material name = 'color2'>
+   <color rgba='0.3 0.4 0.3 0.9' />
+    </material>
+  <material name = 'color3'>
+   <color rgba='0.5 0.1 0.4 0.7' />
+    </material>
+  <material name = 'colorbase'>
+   <color rgba='0.8 0.1 0.1 0.9' />
+    </material>
+
+
+  <link name="baseLink" >
+    <visual>
+        <geometry>
+            <box size='1.8 1.8 0.1' />
+        </geometry>
+        <material name='colorbase' />
+        <origin xyz="0 0 0" />
+    </visual>
+    </link>
+
+  <link name="prismaticLink" >
+     <visual>
+         <geometry>
+             <cylinder radius = "0.2" length="0.8" />
+         </geometry>
+         <material name='color1' />
+         <origin xyz="0 0 0.4" />
+     </visual>
+</link>
+
+
+  <link name="revoluteLink1" >
+            <visual>
+                <geometry>
+                     <box size='0.2 0.2 0.8'/>
+                </geometry>
+            <material name='color2' />
+            <origin  xyz="-0.1 0 0.4"/>
+           </visual>
+</link>
+
+
+  <link name="revoluteLink2" >
+            <visual>
+                <geometry>
+                     <box size='0.1 0.1 0.4'/>
+                </geometry>
+            <material name='color3' />
+            <origin  xyz="0.05 0 0.2"/>
+           </visual>
+</link>
+
+
+
+  <joint name="baseToprismatic" type="prismatic">
+    <parent link="baseLink" />
+    <child link="prismaticLink" />
+    <axis xyz="0 0 1" />
+    <limit effort='30' velocity='1.0' lower="-1" upper="1" />
+  </joint>
+  
+  <joint name="prismaticTorevolute1" type="revolute">
+    <parent link="prismaticLink" />
+    <child link="revoluteLink1" />
+    <limit effort='30' velocity='1.0' lower="-1" upper="1" />
+    <origin xyz="0 0 0.8" rpy="0 1.5708 0" />
+    <axis xyz="0 1 0" />
+    
+  </joint>
+  
+  <joint name="revolute1Torevolute2" type="revolute">
+    <parent link="revoluteLink1" />
+    <child link="revoluteLink2" />
+    <limit effort='30' velocity='1.0' lower="-1" upper="1" />
+    <origin xyz="0 0 0.8" rpy="0 1.5708 0" />
+    <axis xyz="1 0 0" />
+    
+  </joint>
+
+
+  
+</robot>

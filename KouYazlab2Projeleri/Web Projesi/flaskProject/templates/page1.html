@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Web Sitesinin Kelime Frekansı</title>
+{% endblock %}
+
+{% block body %}
+    <body>
+    {% include "navbar.html" %}
+    <div class="jumbotron">
+        <h3>Web Sitesinin Kelime Frekansı</h3>
+        <p>Girilen URL için Kelime Frekansı Analizi yapılacaktır.<br>
+        Sayfa içeriğinde sembol temizleme ve kök bulma işlemlerinden sonra her kelimenin tekrarı hesaplanmıştır.<br>
+        Yazdırma işlemlerinin tümü sonuç ekranında gözükecektir.</p>
+
+        <form action="/page1sonuc" method="post">
+
+            {{ form.url.label() }} <br>
+            {{ form.url() }} <br>
+            <br>
+            {{ form.submit() }}
+        </form>
+
+    </div>
+
+    </body>
+{% endblock %}

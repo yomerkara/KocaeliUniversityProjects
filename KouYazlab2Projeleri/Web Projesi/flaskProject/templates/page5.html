@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Semantik Analiz</title>
+{% endblock %}
+
+{% block body %}
+    <body>
+    {% include "navbar.html" %}
+    <div class="jumbotron">
+        <h3>Semantik Analiz</h3>
+        <p> Verilen web siteleri icerisinde anahtar kelimelerle semantik olarak alakalı kelimeler
+            olabilir. Ornegin, “ulusal” yerine “milli” kelimesi yer alabilir. Bu kelimelere “alakalı
+            anahtar kelimeler” diyelim.
+            <br> Alakalı anahtar kelimeleri bulun ve yazdırın.<br>
+            Yinelemeli olarak 4. a¸samadaki analizi yapınız<br>
+            Yazdırma işlemlerinin tümü sonuç ekranında gözükecektir.</p>
+
+        <form action="/page5sonuc" method="post">
+
+            {{ form.url5.label() }} <br>
+            {{ form.url5() }} <br>
+            {{ form.url6.label() }} <br>
+            {{ form.url6() }} <br>
+            <br>
+            {{ form.submit() }}
+        </form>
+
+    </div>
+
+    </body>
+{% endblock %}

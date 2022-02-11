@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Site Indexleme ve Sıralama</title>
+{% endblock %}
+
+{% block body %}
+    <body>
+    {% include "navbar.html" %}
+    <div class="jumbotron">
+        <h3>Site Indexleme ve Sıralama</h3>
+        <p>Girilen URL ve Web Sitesi Kümesi içindeki her bir web sayfasının içeriklerinin benzerlik skorları ayrı ayrı
+            hesaplanacaktır.<br>
+            Web sitesi kümesinin içindeki Web sitelerinin sahip olduğu ve yönlendirdiği URL sayfaları da dikkate
+            alınarak n (derinlik max 3 seviye; ana sayfa= 1. seviye
+            derinlik, ana sayfadan linklenmis bir sayfa: 2. seviye derinlik, ana sayfadan linklenmis bir
+            sayfadan linklenmis bir sayfa:3. seviye derinlik olarak kabul edilmelidir) benzerlik sıralaması yapılacaktır.<br>
+            Web sitelerini benzerlik skorlarına göre yüksekten düşüğe doğru sıralanacaktır.<br>
+            Yazdırma işlemlerinin tümü sonuç ekranında gözükecektir.</p>
+
+        <form action="/page4sonuc" method="post">
+
+            {{ form.url3.label() }} <br>
+            {{ form.url3() }} <br>
+            {{ form.url4.label() }} <br>
+            {{ form.url4() }} <br>
+            <br>
+            {{ form.submit() }}
+        </form>
+
+    </div>
+
+    </body>
+{% endblock %}

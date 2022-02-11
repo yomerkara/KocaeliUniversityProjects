@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>Anahtar Kelime Çıkarma ve Benzerlik Skorlaması</title>
+{% endblock %}
+
+{% block body %}
+    <body>
+    {% include "navbar.html" %}
+    <div class="jumbotron">
+        <h3>Anahtar Kelime Çıkarma ve Benzerlik Skorlaması</h3>
+        <p>Girilen her 2 URL için sayfaların metninde geçen kelimelerden ,sayfanın içerik özelliklerini belirleyen ve kategorik özelliklerini yansıtan kelimeler bulunacaktır.<br>
+        Sayfanın başlığı ,<"meta"> etiketleri içerikleri ve sayfanın frekansları göz önüne alınarak anahtar kelimeler bulunmuştur.<br>
+        Benzerlik Skorlaması için 2 URL'deki anahtar kelimelerden frekansı küçük olanın frekansını alıp bu frekansları çarparak,ortak olan anahtar kelime sayısına bölerek sonuç elde edilmiştir.<br>
+            Her iki sayfada ortak geçen anahtar kelime sayısını ,anahtar kelime sayısı daha büyük olan sayfayla oranlayarak yüzdesel orantısını bulduk.<br>
+        Yazdırma işlemlerinin tümü sonuç ekranında gözükecektir.</p>
+
+        <form action="/page2_3sonuc" method="post">
+
+            {{ form.url1.label() }} <br>
+            {{ form.url1() }} <br>
+            {{ form.url2.label() }} <br>
+            {{ form.url2() }} <br>
+            <br>
+            {{ form.submit() }}
+        </form>
+
+    </div>
+
+    </body>
+{% endblock %}

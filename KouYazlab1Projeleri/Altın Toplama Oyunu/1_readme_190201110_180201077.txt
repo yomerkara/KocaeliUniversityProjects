@@ -1,0 +1,10 @@
+Feyza Demirel-190201110 Yasin Ömer Kara-180201077
+Program çalıştığında öncelikle terminalden sizden istenen değerleri girmelisiniz.
+Daha sonra ekranda 20x20'lik bir tahta oluşacaktır.
+Tahtanın her bir köşesinde A, B, C ve D oyuncuları bulunacaktır. 
+Her bir oyuncu sırasıyla maximum 3 adım atarak tahtanın üzerinde yazan sayı değerlerine ulaşacaktır.
+Oyuncu altını aldığında o kutucuk beyaza boyanacaktır.
+Ekranda sarı renk ile yazılmış olunan sayı değerleri gizli altınlardır.
+Oyun oyuncular iflas edene kadar ya da tahtadaki altınlar bitene kadar devam edecektir.
+Oyun sonunda terminal ekranında her oyuncuya ait altın miktarı, harcanan altın miktarı,toplam adım sayısı gibi değerleri görebilirsiniz.
+Ve "dosya.txt" dosyasının içinde her oyuncunun hangi yönde ne kadar ilerlediğini görebilirsiniz.

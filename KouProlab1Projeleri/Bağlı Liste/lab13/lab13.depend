@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1609771429 source:c:\users\umut\documents\c programlama\lab13\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

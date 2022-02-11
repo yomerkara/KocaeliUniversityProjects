@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>gotWebURLs</title>
+{% endblock %}
+
+{% block body %}
+    <body>
+    {% include "navbar.html" %}
+    <div class="jumbotron">
+        <h2>Alınan Adresler</h2>
+        {{ hata }}
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Web Sitesi</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="success">
+                <td>{{ url1 }}</td>
+                <td>{{ url2 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <h4>Anahtar Kelime URL1</h4>
+            <p>{{ anahtarPage1 }}</p>
+        <h4>Anahtar Kelime URL2</h4>
+            <p>{{ anahtarPage2}}</p>
+        <h4>Benzerlik Skoru</h4>
+            <p> % {{ benzerlik }}</p>
+
+    </body>
+{% endblock %}

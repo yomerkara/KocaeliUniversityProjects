@@ -1,0 +1,578 @@
+//Easy program that reads a csv file
+//Parsing comma separated fields
+//We assume all the fields on each line are integers
+#include <SPI.h>
+#include <SD.h>
+
+String data[21];
+int count = 0;
+int temp1 = 0;
+int temp2 = 0;
+int temp3 = 0;
+int temp4 = 0;
+int temp5 = 0;
+int kalan = 0;
+int t1 = 0;
+int t2 = 0;
+int t3 = 0;
+int t4 = 0;
+int t5 = 0;
+
+String kasaBilgiP[5];
+String kasaBilgi[4][4];
+int islemBilgiP[5];
+int islemBilgi[4];
+
+
+//buttonlar
+int button1Pin = 2;
+bool button1State = false;
+int button2Pin = 3;
+bool button2State = false;
+int button3Pin = 5;
+bool button3State = false;
+int button4Pin = 6;
+bool button4State = false;
+int button5Pin = 7;
+bool button5State = false;
+int button6Pin = 8;
+bool button6State = false;
+
+//sayaclar
+int button1Sayac = 0;
+int button2Sayac = 0;
+int button3Sayac = 0;
+int button4Sayac = 0;
+int button5Sayac = 0;
+//
+int button1SayacS2 = 0;
+int button2SayacS2 = 0;
+int button3SayacS2 = 0;
+int button4SayacS2 = 0;
+int button5SayacS2 = 0;
+//bitis
+int button6Sayac = 0;
+
+int toplamPara = 0;
+int yukleme = 0;
+int odeme = 0;
+
+
+void setup()
+{
+  // Open serial communications and wait for port to open:
+  pinMode(button1Pin, INPUT);
+  pinMode(button2Pin, INPUT);
+  pinMode(button3Pin, INPUT);
+  pinMode(button4Pin, INPUT);
+  pinMode(button5Pin, INPUT);
+  pinMode(button6Pin, INPUT);
+  pinMode(14,OUTPUT);
+   pinMode(15,OUTPUT);
+   
+ 
+
+
+  Serial.begin(9600);
+  delay(10);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for Leonardo only
+  }
+
+  Serial.print("Initializing SD card...");
+  if (!SD.begin(4)) {
+    Serial.println("initialization failed!");
+    return;
+  }
+  Serial.println("initialization done.");
+
+  // re-open the file for reading:
+  File myFile = SD.open("test.txt");
+  if (!myFile) {
+    Serial.println("error opening test.txt");
+    return;
+  }
+
+  Serial.println("test.txt:");
+
+  // read from the file until there's nothing else in it:
+  String l_line;
+  l_line.reserve(1000); //Avoids heap memory fragmentation
+  //Reserve space for your longest expected data line
+  while (myFile.available()) {
+    l_line = myFile.readStringUntil('\n');
+    l_line.trim();
+    if (l_line != "") {
+      int l_start_posn = 0;
+      while (l_start_posn != -1)
+      {
+        data[count] = ENDF2(l_line, l_start_posn, ',');
+        //Serial.println(data[count]);
+        count++;
+      }
+
+      //
+    } //skip blank (NULL) lines
+  }//Read the file line by line
+  myFile.close();
+  //Kasa Bilgisi
+  for (int i = 0; i < 5; i++)
+  {
+    kasaBilgiP[i] = data[i];
+    //Serial.println(kasaBilgi[i]);
+  }
+  for (int i = 0; i < 5; i++)
+  {
+    islemBilgiP[i] = 0;
+    //Serial.println(kasaBilgi[i]);
+  }
+  //Kopukleme
+
+  islemBilgi[0] = 0;
+
+  //Yikama
+
+  islemBilgi[1] = 0;
+
+  //Kurulama
+
+  islemBilgi[2] = 0;
+
+  //Cilalama
+
+  islemBilgi[3] = 0;
+
+
+  //Kopukleme
+  kasaBilgi[0][0] = data[5];
+  kasaBilgi[0][1] = data[6];
+  kasaBilgi[0][2] = data[7];
+  kasaBilgi[0][3] = data[8];
+  //Yikama
+  kasaBilgi[1][0] = data[9];
+  kasaBilgi[1][1] = data[10];
+  kasaBilgi[1][2] = data[11];
+  kasaBilgi[1][3] = data[12];
+  //Kurulama
+  kasaBilgi[2][0] = data[13];
+  kasaBilgi[2][1] = data[14];
+  kasaBilgi[2][2] = data[15];
+  kasaBilgi[2][3] = data[16];
+  //Cilalama
+  kasaBilgi[3][0] = data[17];
+  kasaBilgi[3][1] = data[18];
+  kasaBilgi[3][2] = data[19];
+  kasaBilgi[3][3] = data[20];
+
+  Serial.println("kasadaki para adedi");
+  Serial.println("5 tl adedi");
+  Serial.println(kasaBilgiP[0]);
+  Serial.println("10 tl adedi");
+  Serial.println(kasaBilgiP[1]);
+  Serial.println("20 tl adedi");
+  Serial.println(kasaBilgiP[2]);
+  Serial.println("50 tl adedi");
+  Serial.println(kasaBilgiP[3]);
+  Serial.println("100 tl adedi");
+  Serial.println(kasaBilgiP[4]);
+  Serial.println("kasadaki islem adedi");
+  Serial.println("kopukleme adedi");
+  Serial.println(kasaBilgi[0][2]);
+  Serial.println("yikama adedi");
+  Serial.println(kasaBilgi[1][2]);
+  Serial.println("kurulama adedi");
+  Serial.println(kasaBilgi[2][2]);
+  Serial.println("cilalama adedi");
+  Serial.println(kasaBilgi[3][2]);
+
+
+  Serial.println("ilk menudeki butonlar:");
+  Serial.println("1- 5 TL ekler.");
+  Serial.println("2- 10 TL ekler.");
+  Serial.println("3- 20 TL ekler.");
+  Serial.println("4- 50 TL ekler.");
+  Serial.println("5- 100 TL ekler.");
+  Serial.println("6- Ekleme islemini bitirir.");
+  Serial.println("ikinci menudeki butonlar:");
+  Serial.println("1- kopukleme 15 TL ");
+  Serial.println("2- yikama 10 TL ");
+  Serial.println("3- kurulama 5 TL ");
+  Serial.println("4- cilalama 50 TL ");
+  Serial.println("5- reset ");
+  Serial.println("6- secim islemini bitirir.");
+}
+String ENDF2(String &p_line, int &p_start, char p_delimiter) {
+  //EXTRACT NEXT DELIMITED FIELD VERSION 2
+  //Extract fields from a line one at a time based on a delimiter.
+  //Because the line remains intact we dont fragment heap memory
+  //p_start would normally start as 0
+  //p_start increments as we move along the line
+  //We return p_start = -1 with the last field
+
+  //If we have already parsed the whole line then return null
+  if (p_start == -1) {
+
+    return "";
+  }
+
+  int l_start = p_start;
+  int l_index = p_line.indexOf(p_delimiter, l_start);
+  if (l_index == -1) { //last field of the data line
+    p_start = l_index;
+
+    return p_line.substring(l_start);
+  }
+  else { //take the next field off the data line
+    p_start = l_index + 1;
+
+    return p_line.substring(l_start, l_index); //Include, Exclude
+  }
+}
+//setup
+void loop()
+{
+
+  // nothing happens after setup
+  button1State = digitalRead(button1Pin);
+  if (button1State == true) {
+    if (button6Sayac == 0) {
+      button1Sayac++;
+      Serial.println("5 Tl adeti:");
+      Serial.println(button1Sayac);
+    }
+    else if (button6Sayac == 1) {
+      button1SayacS2++;
+      Serial.println("Kopukleme:");
+      Serial.println(button1SayacS2);
+    }
+
+  }
+
+  button2State = digitalRead(button2Pin);
+  if (button2State == true) {
+    if (button6Sayac == 0) {
+      button2Sayac++;
+      Serial.println("10 Tl adeti:");
+      Serial.println(button2Sayac);
+    }
+    else if (button6Sayac == 1) {
+      button2SayacS2++;
+      Serial.println("Yikama:");
+      Serial.println(button2SayacS2);
+    }
+
+  }
+
+  button3State = digitalRead(button3Pin);
+  if (button3State == true) {
+    if (button6Sayac == 0) {
+      button3Sayac++;
+      Serial.println("20 Tl adeti:");
+      Serial.println(button3Sayac);
+    }
+    else if (button6Sayac == 1) {
+      button3SayacS2++;
+      Serial.println("Kurulama:");
+      Serial.println(button3SayacS2);
+    }
+
+  }
+
+  button4State = digitalRead(button4Pin);
+  if (button4State == true) {
+    if (button6Sayac == 0) {
+      button4Sayac++;
+      Serial.println("50 Tl adeti:");
+      Serial.println(button4Sayac);
+    }
+    else if (button6Sayac == 1) {
+      button4SayacS2++;
+      Serial.println("Cilalama:");
+      Serial.println(button4SayacS2);
+    }
+
+  }
+
+  button5State = digitalRead(button5Pin);
+  if (button5State == true) {
+    if (button6Sayac == 0) {
+      button5Sayac++;
+      Serial.println("100 Tl adeti:");
+      Serial.println(button5Sayac);
+    }
+    else if (button6Sayac == 1) {
+      button5SayacS2++;
+      if (button5SayacS2 != 0)
+      {
+        Serial.println("Reset Buton");
+        button1SayacS2 = 0;
+        button2SayacS2 = 0;
+        button3SayacS2 = 0;
+        button4SayacS2 = 0;
+        button5SayacS2 = 0;
+        button6Sayac = 0;
+        button5Sayac = 0;
+        button4Sayac = 0;
+        button3Sayac = 0;
+        button2Sayac = 0;
+        button1Sayac = 0;
+
+      }
+    }
+
+  }
+
+  button6State = digitalRead(button6Pin);
+  if (button6State == true) {
+    button6Sayac++;
+    //Serial.println(button6Sayac);
+    if (button6Sayac == 1)
+    {
+      //toplamPara = (kasaBilgiP[0].toInt() + button1Sayac) * 5 + (kasaBilgiP[1].toInt() + button2Sayac) * 10 + (kasaBilgi[2].toInt() + button3Sayac) * 20 + (kasaBilgi[3].toInt() + button4Sayac) * 50 + (kasaBilgi[4].toInt() + button5Sayac) * 100;
+      yukleme = button1Sayac * 5 + button2Sayac * 10 + button3Sayac * 20 + button4Sayac * 50 + button5Sayac * 100;
+
+      //Serial.println("5 Tl adeti:");
+      islemBilgiP[0] = (islemBilgiP[0] + button1Sayac);
+      // Serial.println(islemBilgiP[0]);
+
+      //  Serial.println("10 Tl adeti:");
+      islemBilgiP[1] = (islemBilgiP[1] + button2Sayac);
+      // Serial.println(islemBilgiP[1]);
+
+      //Serial.println("20 Tl adeti:");
+      islemBilgiP[2] = (islemBilgiP[2] + button3Sayac);
+      // Serial.println(islemBilgiP[2]);
+
+      //Serial.println("50 Tl adeti:");
+      islemBilgiP[3] = (islemBilgiP[3] + button4Sayac);
+      // Serial.println(islemBilgiP[3]);
+
+      //Serial.println("100 Tl adeti:");
+      islemBilgiP[4] = (islemBilgiP[4] + button5Sayac);
+      // Serial.println(islemBilgiP[4]);
+      Serial.println("Yuklenen Para:");
+      Serial.println(yukleme);
+    }
+    if (button6Sayac == 2) {
+
+      if (kasaBilgi[0][2].toInt() < button1SayacS2 || kasaBilgi[1][2].toInt() < button2SayacS2  || kasaBilgi[2][2].toInt() < button3SayacS2  || kasaBilgi[3][2].toInt() < button4SayacS2  || kasaBilgi[4][2].toInt() < button5SayacS2 )
+      {
+        Serial.println("secilen işlem adetleri yetersiz yeniden islem adedi seciniz.");
+        button1SayacS2 = 0;
+        button2SayacS2 = 0;
+        button3SayacS2 = 0;
+        button4SayacS2 = 0;
+        button5SayacS2 = 0;
+        button6Sayac = 1;
+      }
+      else {
+        int rastgeledeger = random(1 - 5);
+        if (rastgeledeger == 2)
+        {
+          digitalWrite(14,HIGH);
+          delay(1000);
+          digitalWrite(14,LOW);
+          Serial.println("Hay aksi.Paraniz Sikisti. isleminizi iptal ediliyor lutfen tekrar baslayiniz.");
+          button1Sayac = 0;
+          button2Sayac = 0;
+          button3Sayac = 0;
+          button4Sayac = 0;
+          button5Sayac = 0;
+          button1SayacS2 = 0;
+          button2SayacS2 = 0;
+          button3SayacS2 = 0;
+          button4SayacS2 = 0;
+          button5SayacS2 = 0;
+          button6Sayac = 0;
+
+        }
+        else if (rastgeledeger != 2)
+        {
+          digitalWrite(15,HIGH);
+          delay(1000);
+          digitalWrite(15,LOW);
+          Serial.println("Yapilacak Toplam Odeme:");
+          odeme = (kasaBilgi[0][3].toInt() * button1SayacS2) + (kasaBilgi[1][3].toInt() * button2SayacS2) + (kasaBilgi[2][3].toInt() * button3SayacS2) + (kasaBilgi[3][3].toInt() * button4SayacS2);
+          Serial.println(odeme);
+          if (yukleme > odeme)
+          {
+            Serial.println("alacaginiz para iadesi:");
+            kalan = yukleme - odeme;
+            Serial.println(kalan);
+            while (kalan > 0)
+            {
+              if (kalan >= 100 && t1 == 0)
+              {
+                temp1 = 0;
+                temp1 = kalan / 100;
+                if (temp1 < kasaBilgiP[4].toInt())
+                {
+                  kasaBilgiP[4] = (String)(kasaBilgiP[4].toInt() - temp1);
+                  kalan = kalan - (temp1 * 100);
+
+                }
+                else {
+                  temp1 = kasaBilgiP[4].toInt();
+                   kasaBilgiP[4] = (String)(kasaBilgiP[4].toInt() - temp1);
+                  kalan = kalan - (temp1 * 100);
+                  t1 = 1;
+                }
+
+
+              }
+              else if (kalan >= 50 && t2 == 0)
+              {
+                temp2 = 0;
+                temp2 = kalan / 50;
+                if (temp2 < kasaBilgiP[3].toInt())
+                {
+                  kasaBilgiP[3] = (String)(kasaBilgiP[3].toInt() - temp2);
+                  kalan = kalan - (temp2 * 50);
+
+                }
+                else {
+                  temp2 = kasaBilgiP[3].toInt();
+                  kasaBilgiP[3] = (String)(kasaBilgiP[3].toInt() - temp2);
+                  kalan = kalan - (temp2 * 50);
+                  t2 = 1;
+                }
+
+
+              }
+              else if (kalan >= 20 && t3 == 0)
+              {
+                temp3 = 0;
+                temp3 = kalan / 20;
+                if (temp3 < kasaBilgiP[2].toInt())
+                {
+                  kasaBilgiP[2] = (String)(kasaBilgiP[2].toInt() - temp3);
+                  kalan = kalan - (temp3 * 20);
+
+
+                }
+                else {
+                  temp3 = kasaBilgiP[2].toInt();
+                  kasaBilgiP[2] = (String)(kasaBilgiP[2].toInt() - temp3);
+                  kalan = kalan - ( temp3 * 20);
+                  t3 = 1;
+                }
+
+
+              }
+              else if (kalan >= 10 && t4 == 0)
+              {
+                temp4 = 0;
+                temp4 = kalan / 20;
+                if (temp4 < kasaBilgiP[1].toInt())
+                {
+                  kasaBilgiP[1] = (String)(kasaBilgiP[1].toInt() - temp4);
+                  kalan = kalan - (temp4 * 20);
+
+
+                }
+                else {
+                  temp4 = kasaBilgiP[1].toInt();
+                  kasaBilgiP[1] = (String)(kasaBilgiP[1].toInt() - temp4);
+                  kalan = kalan - ( temp4 * 10);
+                  t4 = 1;
+                }
+              }
+              else if (kalan >= 5 && t5 == 0)
+              {
+                temp5 = 0;
+                temp5 = kalan / 5;
+                if (temp5 < kasaBilgiP[0].toInt())
+                {
+                  kasaBilgiP[0] = (String)(kasaBilgiP[0].toInt() - temp5);
+                  kalan = kalan - (temp5 * 5);
+                }
+                else {
+                  temp5 = kasaBilgiP[0].toInt();
+                  kasaBilgiP[0] = (String)(kasaBilgiP[0].toInt() - temp5);
+                  kalan = kalan - (temp5 * 5);
+                  t5 = 1;
+                }
+
+              }
+
+            }
+            t1 = 0;
+            t2 = 0;
+            t3 = 0;
+            t4 = 0;
+            t5 = 0;
+
+            Serial.println("para iadeniz:");
+            Serial.println("100 TL adedi:");
+            Serial.println(temp1);
+            Serial.println("50 TL adedi:");
+            Serial.println(temp2);
+            Serial.println("20 TL adedi:");
+            Serial.println(temp3);
+            Serial.println("10 TL adedi:");
+            Serial.println(temp4);
+            Serial.println("5 TL adedi:");
+            Serial.println(temp5);
+          Serial.println("Kalan islem adetleri:");
+          kasaBilgi[0][2] = (String)(kasaBilgi[0][2].toInt() - button1SayacS2);
+          Serial.println("Kalan Kopukleme:");
+          Serial.println(kasaBilgi[0][2]);
+          kasaBilgi[1][2] = (String)(kasaBilgi[1][2].toInt() - button2SayacS2);
+          Serial.println("Kalan Yikama:");
+          Serial.println(kasaBilgi[1][2]);
+          kasaBilgi[2][2] = (String)(kasaBilgi[2][2].toInt() - button3SayacS2);
+          Serial.println("Kalan Kurulama:");
+          Serial.println(kasaBilgi[2][2]);
+          kasaBilgi[3][2] = (String)(kasaBilgi[3][2].toInt() - button4SayacS2);
+          Serial.println("Kalan Cilalama:");
+          Serial.println(kasaBilgi[3][2]);
+           Serial.println("Kalan para adetleri:");
+            Serial.println("Kalan 5tl adeti:");
+            Serial.println(kasaBilgiP[0]);
+            Serial.println("Kalan 10tl adeti:");
+            Serial.println(kasaBilgiP[1]);
+            Serial.println("Kalan 20tl adeti:");
+            Serial.println(kasaBilgiP[2]);
+            Serial.println("Kalan 50tl adeti:");
+            Serial.println(kasaBilgiP[3]);
+            Serial.println("Kalan 100tl adeti:");
+            Serial.println(kasaBilgiP[4]);
+           
+
+            Serial.println("yeniden baslatiliyor");
+            button1Sayac = 0;
+            button2Sayac = 0;
+            button3Sayac = 0;
+            button4Sayac = 0;
+            button5Sayac = 0;
+            button1SayacS2 = 0;
+            button2SayacS2 = 0;
+            button3SayacS2 = 0;
+            button4SayacS2 = 0;
+            button5SayacS2 = 0;
+            button6Sayac = 0;
+
+
+
+
+          }
+          if (yukleme < odeme)
+          {
+            Serial.println("islem tutarindan daha az para yüklediniz.Daha fazla para yükleyiniz.");
+            button6Sayac = 0;
+          }
+
+        }
+
+
+
+      }
+
+
+
+
+    }
+  }
+  delay(400);
+
+}
